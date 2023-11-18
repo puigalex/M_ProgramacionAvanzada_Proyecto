@@ -22,9 +22,7 @@ public class CSVHandler {
         String linea;
         linea = br.readLine();
         nombreColumnas =  java.util.Arrays.asList(linea.split(",")); // Guardamos los nombres de las columnas
-        
         while ((linea = br.readLine()) != null) {
-            System.out.println(linea);
             String[] mediciones = linea.split(",");
             Map<String, Double> medicion = new java.util.HashMap<>();
             for (int i = 0; i < mediciones.length; i++) {

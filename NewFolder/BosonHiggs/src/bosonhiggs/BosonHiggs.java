@@ -18,9 +18,10 @@ public class BosonHiggs {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CSVHandler csv = new CSVHandler("/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv");
-        List<Map<String, Double>> data = csv.getData();
-        System.out.println(data.get(0));
+        //CSVHandler csv = new CSVHandler("/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv");
+        String path = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv";
+        float promedio = Promedio.promedio(path,2);
+        //System.out.println(data.get(0));
 
         /*
         Scanner sc = new Scanner(System.in);
