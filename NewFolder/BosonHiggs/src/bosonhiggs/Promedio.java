@@ -16,7 +16,7 @@ public class Promedio {
     static int contador;
     static float promedio;
 
-    static float promedio(String path, int columna) {
+    public static float promedio(String path, int columna) {
     try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
         String linea = reader.readLine();
         while ((linea = reader.readLine()) != null) {
