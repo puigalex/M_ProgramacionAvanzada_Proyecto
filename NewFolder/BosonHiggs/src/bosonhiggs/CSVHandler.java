@@ -1,12 +1,10 @@
 package bosonhiggs;
 
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CSVHandler {
-    private List<Map<String, Double>> data = new ArrayList<>(); // Lista de mapas para almacenar datos con el nombre de la columna
+    private List<List<Float>> data = new ArrayList<>(); 
     private List<String> nombreColumnas = new ArrayList<>(); // Lista de nombres de columnas
     private String directorio;
     
@@ -16,6 +14,18 @@ public class CSVHandler {
     
     }
 
+    public void writeData(List<List<Float>> data, String directorio) {
+        try (java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter(directorio))) {
+            bw.write(String.join(",", nombreColumnas));
+            bw.newLine();
+            for (List<Float> medicion : data) {
+                bw.write(String.join(",", medicion.toString()));
+                bw.newLine();
+            }
+        } catch (java.io.IOException e) {
+            System.out.println("Error al escribir los datos" + directorio);
+        }
+    }
 
     private void readData() {
         try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(this.directorio))) {
@@ -23,10 +33,11 @@ public class CSVHandler {
         linea = br.readLine();
         nombreColumnas =  java.util.Arrays.asList(linea.split(",")); // Guardamos los nombres de las columnas
         while ((linea = br.readLine()) != null) {
+            System.err.println(linea);
             String[] mediciones = linea.split(",");
-            Map<String, Double> medicion = new java.util.HashMap<>();
+            List<Float> medicion = new ArrayList<>();
             for (int i = 0; i < mediciones.length; i++) {
-                medicion.put(nombreColumnas.get(i), Double.parseDouble(mediciones[i]));
+                medicion.add(Float.parseFloat(mediciones[i]));
             }
             data.add(medicion);
         }
@@ -35,7 +46,7 @@ public class CSVHandler {
     }  
     }
 
-        public List<Map<String, Double>> getData() {
+        public List<List<Float>> getData() {
             return data;
     }
 }
