@@ -6,6 +6,7 @@ package bosonhiggs;
 
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
 
 /**
  *
@@ -17,6 +18,7 @@ public class BosonHiggs {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /* 
         CSVHandler csv = new CSVHandler("/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv");
         List<List<Float>> data = csv.getData();
         List<List<Float>> data_filtrada;
@@ -31,17 +33,41 @@ public class BosonHiggs {
         //write data
         //csv.writeData(csv.getData(), "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv");
         //System.out.println(data.get(0));
-
-        /*
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Introduce el directorio: ");
-        String directorio = sc.nextLine();
-        CSVHandler csv2 = new CSVHandler(directorio);
-        List<Map<String, Double>> data2 = csv2.getData();
-        System.out.println(data2.get(0));
-
         */
+        int numCPUs = getCPU();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce el directorio y nombre del archivo: ");
+        String directorio = sc.nextLine();
+        directorio = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv";
+        CSVHandler csv = new CSVHandler(directorio);
+        csv.desplegarHeaders();
+        System.out.println("Introduce el numero de las columnas a filtrar (Separados por espacios): ");
+        String columnas = sc.nextLine();
+        csv.getColFiltadas(columnas);
+        int[] columnasFiltradas = csv.getColumnasFiltradas();
+        crearDirectorio();
+
+
 
     }
+
+
+
+
+    private static int getCPU() {
+        return Runtime.getRuntime().availableProcessors();
+    }
+
+    private static void crearDirectorio() {
+        String path = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/";
+        File directorio = new File(path);
+        try {
+            directorio.mkdir();
+        } catch (SecurityException e) {
+            System.out.println("Error al crear directorio");
+        }
+    }
+
+
     
 }
