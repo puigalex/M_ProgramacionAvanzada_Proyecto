@@ -22,7 +22,7 @@ public class Manager {
         // Fin del metodo  crearWorkers(int cantidadWorkers)
        
         for (int i = 0; i < numWorkers; i++) {
-            Worker worker = new Worker(paths.get(i), new int[]{0,1,2},i,i);
+            Worker worker = new Worker(paths.get(i), new int[]{0,1,2},i,i,0.5f);
             poolWorkers[i] = new Thread(worker);
             poolWorkers[i].start();
         }
