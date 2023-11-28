@@ -1,4 +1,4 @@
-package Proyecto;
+package bosonhiggs;
 
 import java.io.*;
 import java.util.*;
@@ -58,7 +58,7 @@ public class CsvSplitter {
     // public static void main(String[] args) {
     //         CsvSplitter splitter = new CsvSplitter(10); // Cambia 100 por el número de filas por archivo que desees
     
-    //         // Reemplaza "sourceFile.csv" y "destinationDirectory" con tus ubicaciones reales
+
     //         splitter.splitCsv("/home/max/Hilos_codigos/Proyecto/Higgs.csv", "/home/max/Hilos_codigos/Proyecto");
     //     }
 }

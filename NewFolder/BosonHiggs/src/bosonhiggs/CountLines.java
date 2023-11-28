@@ -1,4 +1,4 @@
-package Proyecto;
+package bosonhiggs;
 
 import java.util.ArrayList;
 import java.util.List;
