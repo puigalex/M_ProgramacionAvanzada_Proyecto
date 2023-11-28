@@ -46,10 +46,15 @@ public class BosonHiggs {
         csv.getColFiltadas(columnas);
         int[] columnasFiltradas = csv.getColumnasFiltradas();
         crearDirectorio();
-        System.out.println("Que filtrado quieres hacer, sobre que columna? (1: >, 2: <, 3: =, 4: !=)");
-        int tipoFiltrado = sc.nextInt();
-        System.out.println("Introduce la variable de filtrada: ");
+        System.out.println("Introduce la variable a filtrar: ");
         int valorFiltrado = sc.nextInt();
+        System.out.println("Que filtrado quieres hacer, sobre que columna? (0: Sin filtro \n1: > \n2: < \n3: =, \n4: !=, \n5: >=, \n6: <=)");
+        int tipoFiltrado = sc.nextInt();
+        System.out.println("Criterio a usar para filtrar: ");
+        float criterio = sc.nextFloat();
+
+        // Echar a andar el manager 
+
 
 
     }
