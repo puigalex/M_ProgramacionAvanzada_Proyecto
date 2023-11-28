@@ -18,11 +18,12 @@ public class Worker implements Runnable {
     private int valorFiltrado;
     private float criterio = 0;
 
-    public Worker(String nombreArchivo, int[] columnasFiltradas, int tipoFiltrado, int valorFiltrado) {
+    public Worker(String nombreArchivo, int[] columnasFiltradas, int tipoFiltrado, int valorFiltrado, float criterio) {
         this.nombreArchivo = nombreArchivo;
         this.columnasFiltradas = columnasFiltradas;
         this.tipoFiltrado = tipoFiltrado;
         this.valorFiltrado = valorFiltrado;
+        this.criterio = criterio;
     }
 
 
@@ -158,7 +159,7 @@ public class Worker implements Runnable {
         };
 
         for (int i = 0; i < Math.min(numWorkers, csvFilePaths.length); i++) {
-            Worker worker = new Worker(csvFilePaths[i], new int[]{0, 1, 2}, i, i);
+            Worker worker = new Worker(csvFilePaths[i], new int[]{0, 1, 2}, i, i, i);
             poolWorkers[i] = new Thread(worker);
             poolWorkers[i].start();
         }
