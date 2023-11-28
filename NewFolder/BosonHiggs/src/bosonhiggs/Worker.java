@@ -14,9 +14,17 @@ public class Worker implements Runnable {
     private static List<List<Float>> data = new ArrayList<>();
     private static Lock lock = new ReentrantLock();
     private String nombreArchivo;
+    private int[] columnasFiltradas;
+    private int tipoFiltrado;
+    private int valorFiltrado;
 
-    public Worker(String nombreArchivo) {
+    public Worker(String nombreArchivo, int[] columnasFiltradas, int tipoFiltrado, int valorFiltrado) {
         this.nombreArchivo = nombreArchivo;
+        this.columnasFiltradas = columnasFiltradas;
+        this.tipoFiltrado = tipoFiltrado;
+        this.valorFiltrado = valorFiltrado;
+
+
     }
 
     @Override
@@ -54,6 +62,16 @@ public class Worker implements Runnable {
             lock.unlock();
         }
     }
+
+    private String[] extraerColumnas(String[] linea) {
+        String[] columnas = new String[columnasFiltradas.length];
+        for (int i = 0; i < columnasFiltradas.length; i++) {
+            columnas[i] = linea[columnasFiltradas[i]];
+        }
+        return columnas;
+    }
+
+
 
 
 
