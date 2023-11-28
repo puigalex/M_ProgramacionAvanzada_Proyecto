@@ -10,7 +10,8 @@ public class CsvSplitter {
         this.rowsPerFile = rowsPerFile;
     }
 
-    public void splitCsv(String sourceFilePath, String destinationDirectory) {
+    public List<String> splitCsv(String sourceFilePath, String destinationDirectory) {
+        List<String> paths = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(sourceFilePath))) {
             String header = br.readLine(); 
             List<List<String>> data = new ArrayList<>();
@@ -25,6 +26,7 @@ public class CsvSplitter {
 
                 if (rowCount == rowsPerFile) {
                     writeData(header, data, destinationDirectory + "/part_" + fileCount + ".csv");
+                    paths.add(destinationDirectory + "/part_" + fileCount + ".csv");
                     rowCount = 0;
                     fileCount++;
                     data.clear();
@@ -38,6 +40,7 @@ public class CsvSplitter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return paths;
     }
 
     private void writeData(String header, List<List<String>> data, String filePath) {
@@ -56,11 +59,14 @@ public class CsvSplitter {
     // ****Test:****
 
     // public static void main(String[] args) {
-    //         CsvSplitter splitter = new CsvSplitter(10); // Cambia 100 por el número de filas por archivo que desees
+    //     CsvSplitter splitter = new CsvSplitter(10); 
     
-
-    //         splitter.splitCsv("/home/max/Hilos_codigos/Proyecto/Higgs.csv", "/home/max/Hilos_codigos/Proyecto");
+    //     List<String> paths = splitter.splitCsv("/home/max/Hilos_codigos/Proyecto/Higgs.csv", "/home/max/Hilos_codigos/Proyecto/temp");
+    
+    //     for (int j = 0; j < paths.size(); j++) {
+    //         System.out.println(paths.get(j) + " ");
     //     }
+    // }
 }
 
 
