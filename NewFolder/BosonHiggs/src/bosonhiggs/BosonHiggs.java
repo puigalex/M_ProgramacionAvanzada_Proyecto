@@ -18,22 +18,7 @@ public class BosonHiggs {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /* 
-        CSVHandler csv = new CSVHandler("/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv");
-        List<List<Float>> data = csv.getData();
-        List<List<Float>> data_filtrada;
-        System.out.println(data.get(0));
-        //Filter data
-        FiltradoCol.filterColumns(data, List.of(0, 1, 2));
-        data_filtrada = FiltradoCol.getFilteredColumns();
-        //Write data 
-        csv.writeData(data_filtrada, "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10_test_filtrado.csv");
-        //String path = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv";
-        //float promedio = Promedio.promedio(path,2);
-        //write data
-        //csv.writeData(csv.getData(), "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv");
-        //System.out.println(data.get(0));
-        */
+
         int numCPUs = getCPU();
         Scanner sc = new Scanner(System.in);
         System.out.println("Introduce el directorio y nombre del archivo: ");
@@ -46,10 +31,15 @@ public class BosonHiggs {
         csv.getColFiltadas(columnas);
         int[] columnasFiltradas = csv.getColumnasFiltradas();
         crearDirectorio();
-        System.out.println("Que filtrado quieres hacer, sobre que columna? (1: >, 2: <, 3: =, 4: !=)");
-        int tipoFiltrado = sc.nextInt();
-        System.out.println("Introduce la variable de filtrada: ");
+        System.out.println("Introduce la variable a filtrar: ");
         int valorFiltrado = sc.nextInt();
+        System.out.println("Que filtrado quieres hacer, sobre que columna? (0: Sin filtro \n1: > \n2: < \n3: =, \n4: !=, \n5: >=, \n6: <=)");
+        int tipoFiltrado = sc.nextInt();
+        System.out.println("Criterio a usar para filtrar: ");
+        float criterio = sc.nextFloat();
+
+        // Echar a andar el manager 
+
 
 
     }
