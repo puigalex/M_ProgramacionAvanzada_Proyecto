@@ -32,15 +32,14 @@ public class Manager implements datosFiltrados {
     public void filtrarConcurrente(String dir) {
         
         int lineas = CountLines.countData(dir);
-        CsvSplitter splitter = new CsvSplitter(lineas/(numCPU*10)); 
+        //CSVHandler splitter = new CsvSplitter(lineas/(numCPU*10)); 
     
-        List<String> paths = splitter.splitCsv(nombreArchivo, "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/");
-        // Fin metodo recibirTarea()
-        
-        // crearWorkers(int cantidadWorkers)
+        List<String> paths = CSVHandler.splitCsv(nombreArchivo, "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/", lineas/(numCPU*10));
+
+    
         int numWorkers = numCPU*10;
         this.poolWorkers = new Thread[numWorkers];
-        // Fin del metodo  crearWorkers(int cantidadWorkers)
+
         // Empezar temporizador
         long startTime = System.currentTimeMillis();
        
@@ -62,7 +61,7 @@ public class Manager implements datosFiltrados {
         System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
         System.out.println("Termino el filtrado, data contiene: " + data.size() + " registros");
         // Escribir CSV
-        splitter.writeData(data, "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/" + "HiggsFiltrado_2M.csv");
+        CSVHandler.writeData(data, "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/" + "HiggsFiltrado_2M.csv");
 
     }
     

@@ -4,7 +4,6 @@
  */
 package bosonhiggs;
 
-import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 
@@ -14,37 +13,48 @@ import java.io.File;
  */
 public class BosonHiggs {
 
-    /**
-     * @param args the command line arguments
-     */
+ 
     public static void main(String[] args) {
-
+        boolean flag = true;
+        String directorio = null;
+        int[] columnasFiltradas= null;
+        int tipoFiltrado=0;
+        int valorFiltrado=0;
+        float criterio = 0;
         int numCPUs = getCPU();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Introduce el directorio y nombre del archivo: ");
-        String directorio = sc.nextLine();
-        directorio = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS_2M.csv";
-        CSVHandler csv = new CSVHandler(directorio);
-        csv.desplegarHeaders();
-        System.out.println("Introduce el numero de las columnas a filtrar (Separados por espacios): ");
-        String columnas = sc.nextLine();
-        csv.getColFiltadas(columnas);
-        int[] columnasFiltradas = csv.getColumnasFiltradas();
-        crearDirectorio();
-        System.out.println("Introduce la variable a filtrar: ");
-        int valorFiltrado = sc.nextInt();
-        System.out.println("Que filtrado quieres hacer, sobre que columna? (0: Sin filtro \n1: > \n2: < \n3: =, \n4: !=, \n5: >=, \n6: <=)");
-        int tipoFiltrado = sc.nextInt();
-        System.out.println("Criterio a usar para filtrar: ");
-        float criterio = sc.nextFloat();
+        
+        while(flag){
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Introduce el directorio y nombre del archivo: ");
+            directorio = sc.nextLine();
+            directorio = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS_2M.csv";
+            CSVHandler csv = new CSVHandler(directorio);
+            csv.desplegarHeaders();
+            System.out.println("Introduce el numero de las columnas a filtrar (Separados por espacios): ");
+            String columnas = sc.nextLine();
+            csv.getColFiltadas(columnas);
+            columnasFiltradas = csv.getColumnasFiltradas();
+            crearDirectorio();
+            System.out.println("Introduce la variable a filtrar: ");
+            valorFiltrado = sc.nextInt();
+            System.out.println("Que filtrado quieres hacer, sobre que columna? (0: Sin filtro \n1: > \n2: < \n3: =, \n4: !=, \n5: >=, \n6: <=)");
+            tipoFiltrado = sc.nextInt();
+            System.out.println("Criterio a usar para filtrar: ");
+            criterio = sc.nextFloat();
+            flag = false;
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al leer los datos");
+        }
+        
+    }
+        
 
         // Echar a andar el manager 
         Manager manager = new Manager(directorio, columnasFiltradas, tipoFiltrado, valorFiltrado, criterio, numCPUs);
         manager.filtrarConcurrente(directorio);
-        sc.close();
-
-
-
     }
 
 

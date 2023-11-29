@@ -1,6 +1,12 @@
 package bosonhiggs;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CSVHandler {
@@ -46,13 +52,57 @@ public class CSVHandler {
         return this.columnasFiltradas;
     }
 
+    static List<String> splitCsv(String sourceFilePath, String destinationDirectory, int rowsPerFile) {
+        List<String> paths = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(sourceFilePath))) {
+            String header = br.readLine(); 
+            List<List<String>> data = new ArrayList<>();
+            String line;
+            int rowCount = 0;
+            int fileCount = 1;
+
+            while ((line = br.readLine()) != null) {
+                List<String> row = Arrays.asList(line.split(",")); 
+                data.add(row);
+                rowCount++;
+
+                if (rowCount == rowsPerFile) {
+                    writeData(header, data, destinationDirectory + "/part_" + fileCount + ".csv");
+                    paths.add(destinationDirectory + "/part_" + fileCount + ".csv");
+                    rowCount = 0;
+                    fileCount++;
+                    data.clear();
+                }
+            }
+
+    
+            if (!data.isEmpty()) {
+                writeData(header, data, destinationDirectory + "/part_" + fileCount + ".csv");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return paths;
+    }
 
 
 
-    public void writeData(List<List<Float>> data, String directorio) {
-        try (java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter(directorio))) {
-            bw.write(String.join(",", nombreColumnas));
+
+    public static void writeData(String header, List<List<String>> data, String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write(header);
             bw.newLine();
+            for (List<String> row : data) {
+                bw.write(String.join(",", row));
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void writeData(List<List<Float>> data, String directorio) {
+        try (java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter(directorio))) {
             for (List<Float> medicion : data) {
                 bw.write(String.join(",", medicion.toString()));
                 bw.newLine();
@@ -62,24 +112,7 @@ public class CSVHandler {
         }
     }
 
-    private void readData() {
-        try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(this.directorio))) {
-        String linea;
-        linea = br.readLine();
-        nombreColumnas =  java.util.Arrays.asList(linea.split(",")); // Guardamos los nombres de las columnas
-        while ((linea = br.readLine()) != null) {
-            System.err.println(linea);
-            String[] mediciones = linea.split(",");
-            List<Float> medicion = new ArrayList<>();
-            for (int i = 0; i < mediciones.length; i++) {
-                medicion.add(Float.parseFloat(mediciones[i]));
-            }
-            data.add(medicion);
-        }
-    } catch (java.io.IOException e) {
-        System.out.println("Error al cargar los datos" + this.directorio);
-    }  
-    }
+
 
         public List<List<Float>> getData() {
             return data;

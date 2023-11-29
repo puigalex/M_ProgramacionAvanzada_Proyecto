@@ -57,6 +57,9 @@ public class Worker implements Runnable, datosFiltrados {
                 
             }
         }
+        catch (IOException e) {
+            System.err.println("Error leyendo el csv: " + e.getMessage());
+        }
     }
 
 
