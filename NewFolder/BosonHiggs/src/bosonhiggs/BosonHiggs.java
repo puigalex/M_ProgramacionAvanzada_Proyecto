@@ -23,7 +23,7 @@ public class BosonHiggs {
         Scanner sc = new Scanner(System.in);
         System.out.println("Introduce el directorio y nombre del archivo: ");
         String directorio = sc.nextLine();
-        directorio = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10.csv";
+        directorio = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS_2M.csv";
         CSVHandler csv = new CSVHandler(directorio);
         csv.desplegarHeaders();
         System.out.println("Introduce el numero de las columnas a filtrar (Separados por espacios): ");
@@ -39,6 +39,9 @@ public class BosonHiggs {
         float criterio = sc.nextFloat();
 
         // Echar a andar el manager 
+        Manager manager = new Manager(directorio, columnasFiltradas, tipoFiltrado, valorFiltrado, criterio, numCPUs);
+        manager.filtrarConcurrente(directorio);
+        sc.close();
 
 
 

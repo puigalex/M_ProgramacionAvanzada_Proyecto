@@ -8,9 +8,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Worker implements Runnable {
+public class Worker implements Runnable, datosFiltrados {
 
-    private static List<List<Float>> data = new ArrayList<>();
+    // private static List<List<Float>> data = new ArrayList<>();
     private static Lock lock = new ReentrantLock();
     private String nombreArchivo;
     private int[] columnasFiltradas;
@@ -41,6 +41,7 @@ public class Worker implements Runnable {
     private void leerCSV() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
             String linea;
+            reader.readLine();
             while ((linea = reader.readLine()) != null) {
                 String[] row = linea.split(",");
                 List<Float> medicion = new ArrayList<>();
@@ -48,9 +49,11 @@ public class Worker implements Runnable {
                     medicion.add(Float.parseFloat(dato));
                 }
                 //Filtar valor
-
-                //Fultrar columnas
-                escribirResultado(medicion);
+                medicion = filtrarRenglon(medicion);
+                //Filtrar columnas si medicion trae valor 
+                if (medicion.size() > 0){
+                medicion = filtrarColumnas(medicion);
+                escribirResultado(medicion);}
                 
             }
         }
@@ -61,8 +64,8 @@ public class Worker implements Runnable {
         lock.lock();
         try {
             data.add(registro);
-            System.out.println("Se escribio registro nuevo por en ID tipoFiltrado: " + Thread.currentThread().getId());
-            System.out.println(data.size());
+            //System.out.println("Se escribio registro nuevo por en ID tipoFiltrado: " + Thread.currentThread().getId());
+            //System.out.println(data.size());
         } finally {
             lock.unlock();
         }
@@ -146,35 +149,35 @@ public class Worker implements Runnable {
     //     }
     // }
 
-    private static Thread[] poolWorkers;
-    public static void main(String[] args) {
-        int numWorkers = 8;
+    // private static Thread[] poolWorkers;
+    // public static void main(String[] args) {
+    //     int numWorkers = 8;
         
 
-        poolWorkers = new Thread[numWorkers];
+    //     poolWorkers = new Thread[numWorkers];
 
-        String[] csvFilePaths = {
-            "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10c.csv",
-            "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10c1.csv",
-        };
+    //     String[] csvFilePaths = {
+    //         "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10c.csv",
+    //         "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10c1.csv",
+    //     };
 
-        for (int i = 0; i < Math.min(numWorkers, csvFilePaths.length); i++) {
-            Worker worker = new Worker(csvFilePaths[i], new int[]{0, 1, 2}, i, i, i);
-            poolWorkers[i] = new Thread(worker);
-            poolWorkers[i].start();
-        }
+    //     for (int i = 0; i < Math.min(numWorkers, csvFilePaths.length); i++) {
+    //         Worker worker = new Worker(csvFilePaths[i], new int[]{0, 1, 2}, i, i, i);
+    //         poolWorkers[i] = new Thread(worker);
+    //         poolWorkers[i].start();
+    //     }
 
-        for (int i = 0; i < Math.min(numWorkers, csvFilePaths.length); i++) {
-            try {
-                poolWorkers[i].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    //     for (int i = 0; i < Math.min(numWorkers, csvFilePaths.length); i++) {
+    //         try {
+    //             poolWorkers[i].join();
+    //         } catch (InterruptedException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
 
-        //Guardar data en csv con writedata
-        writeData(data, "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10c_filtrado.csv");
+    //     //Guardar data en csv con writedata
+    //     writeData(data, "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS10c_filtrado.csv");
         
 
-    }
+    // }
 }
