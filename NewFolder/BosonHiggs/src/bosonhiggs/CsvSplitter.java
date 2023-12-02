@@ -56,6 +56,17 @@ public class CsvSplitter {
         }
     }
 
+    public void writeData(List<List<Float>> data, String directorio) {
+        try (java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter(directorio))) {
+            for (List<Float> medicion : data) {
+                bw.write(String.join(",", medicion.toString()));
+                bw.newLine();
+            }
+        } catch (java.io.IOException e) {
+            System.out.println("Error al escribir los datos" + directorio);
+        }
+    }
+
     // ****Test:****
 
     // public static void main(String[] args) {
