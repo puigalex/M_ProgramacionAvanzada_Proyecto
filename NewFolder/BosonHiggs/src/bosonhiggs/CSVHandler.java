@@ -8,16 +8,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.File;
+
 
 public class CSVHandler {
     private List<List<Float>> data = new ArrayList<>(); 
     private List<String> nombreColumnas = new ArrayList<>(); // Lista de nombres de columnas
     private String directorio;
     private String[] headers;
-    private int[] columnasFiltradas;
+    private int[] columnasaFiltrar;
     
     public CSVHandler(String directorio) {
-
         this.directorio = directorio;
         this.headers = getHeaders(directorio);
     }
@@ -40,16 +41,18 @@ public class CSVHandler {
     }
 
     public void getColFiltadas(String columnas){
-        String[] columnasFiltradas = columnas.split(" ");
-        int[] columnasFiltradasInt = new int[columnasFiltradas.length];
-        for (int i=0; i<columnasFiltradas.length; i++) {
-            columnasFiltradasInt[i] = Integer.parseInt(columnasFiltradas[i]);
+        // Recibe el String de columnas introducidas por el usuario, regresa un arreglo de ints
+        String[] columnasaFiltrar = columnas.split(" ");
+        int[] columnasaFiltrarInt = new int[columnasaFiltrar.length];
+        for (int i=0; i<columnasaFiltrar.length; i++) {
+            columnasaFiltrarInt[i] = Integer.parseInt(columnasaFiltrar[i]);
         }
-        this.columnasFiltradas = columnasFiltradasInt;
+        this.columnasaFiltrar = columnasaFiltrarInt;
     }
 
-    public int[] getColumnasFiltradas() {
-        return this.columnasFiltradas;
+    public int[] getcolumnasaFiltrar() {
+        //Regresa el arreglo de columnas filtradas
+        return this.columnasaFiltrar;
     }
 
     static List<String> splitCsv(String sourceFilePath, String destinationDirectory, int rowsPerFile) {
@@ -113,10 +116,50 @@ public class CSVHandler {
     }
 
 
+    public static int countData(String directorio) {
+        int count = 0;
+        try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(directorio))) {
+            String linea;
+            linea = br.readLine();
+            while ((linea = br.readLine()) != null) {
+                 count += 1; 
+            }
+        } catch (java.io.IOException e) {
+            System.out.println("Error al cargar los datos" + directorio);
+        }
+        return count;
+    }
+
 
         public List<List<Float>> getData() {
             return data;
     }
+
+
+    public static void crearDirectorio() {
+        // get current working directory
+        String path = System.getProperty("user.dir") + "/Temp";
+
+        //String path = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/";
+        File directorio = new File(path);
+        try {
+            directorio.mkdir();
+        } catch (SecurityException e) {
+            System.out.println("Error al crear directorio");
+        }
+    }
+
+
+    public static void eliminarDirectorio(){
+        String path = System.getProperty("user.dir") + "/Temp";
+        File directorio = new File(path);
+        File[] archivos = directorio.listFiles();
+        for (File archivo : archivos) {
+            archivo.delete();
+        }
+        directorio.delete();
+    }
+
 }
     
 

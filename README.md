@@ -13,6 +13,24 @@ Este es el repositorio del proyecto de programación avanzada donde se realizan 
 - Se muestra el tiempo de ejecución
 - Se elimina el directorio temporal
 
+# Clases
+## BosonHiggs.java
+Clase principal que contiene el método main y la interfaz para que el usuario defina los parámetros de entrada.
+
+## CSVHandler.java
+Clase encargada de hacer operaciones con los CSV y sus directorios. Crear/borrar directorios, contar número de líneas, dividir el archivo en n partes.
+
+## Manager.java
+Clase encargada de crear el pool de workers, asignarles un CSV y esperar a que terminen para hacer join y unir los resultados en un solo archivo.
+
+## Worker.java
+Clase que extiende de Runnable para los Workers concurrentes. Cada worker lee el CSV asignado, filtra los registros y los escribe en una variable **data** compartida entre los workers. Al momento de entrar a escribir a **data** cada worker aplica un candado para evitar que otro worker escriba al mismo tiempo.
+
+## datosFiltrados.java
+Clase que contiene la variable **data** donde se escriben los registros filtrados por cada worker. Esta variable es **static** para que sea compartida entre los workers y el worker.
+
+
+
 # Pendientes:
 - Desarrollo:
   - [ ] Interfaz con variable data

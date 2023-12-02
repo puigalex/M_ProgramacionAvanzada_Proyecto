@@ -13,17 +13,17 @@ public class Worker implements Runnable, datosFiltrados {
     // private static List<List<Float>> data = new ArrayList<>();
     private static Lock lock = new ReentrantLock();
     private String nombreArchivo;
-    private int[] columnasFiltradas;
+    private int[] columnasaFiltrar;
     private int tipoFiltrado;
-    private int valorFiltrado;
-    private float criterio = 0;
+    private int varFiltrada;
+    private float criterioFiltrado = 0;
 
-    public Worker(String nombreArchivo, int[] columnasFiltradas, int tipoFiltrado, int valorFiltrado, float criterio) {
+    public Worker(String nombreArchivo, int[] columnasaFiltrar, int tipoFiltrado, int varFiltrada, float criterioFiltrado) {
         this.nombreArchivo = nombreArchivo;
-        this.columnasFiltradas = columnasFiltradas;
+        this.columnasaFiltrar = columnasaFiltrar;
         this.tipoFiltrado = tipoFiltrado;
-        this.valorFiltrado = valorFiltrado;
-        this.criterio = criterio;
+        this.varFiltrada = varFiltrada;
+        this.criterioFiltrado = criterioFiltrado;
     }
 
 
@@ -76,7 +76,7 @@ public class Worker implements Runnable, datosFiltrados {
 
     private List<Float> filtrarColumnas(List<Float> registro) {
         List<Float> registroFiltrado = new ArrayList<>();
-        for (int columna : columnasFiltradas) {
+        for (int columna : columnasaFiltrar) {
             registroFiltrado.add(registro.get(columna));
         }
         return registroFiltrado;
@@ -89,32 +89,32 @@ public class Worker implements Runnable, datosFiltrados {
                 registroFiltrado = registro;
                 break;
             case 1:
-                if (registro.get(valorFiltrado) > criterio) {
+                if (registro.get(varFiltrada) > criterioFiltrado) {
                     registroFiltrado = registro;
                 }
                 break;
             case 2:
-                if (registro.get(valorFiltrado) < criterio) {
+                if (registro.get(varFiltrada) < criterioFiltrado) {
                     registroFiltrado = registro;
                 }
                 break;
             case 3:
-                if (registro.get(valorFiltrado) == criterio) {
+                if (registro.get(varFiltrada) == criterioFiltrado) {
                     registroFiltrado = registro;
                 }
                 break;
             case 4:
-                if (registro.get(valorFiltrado) != criterio) {
+                if (registro.get(varFiltrada) != criterioFiltrado) {
                     registroFiltrado = registro;
                 }
                 break;
             case 5:
-                if (registro.get(valorFiltrado) >= criterio) {
+                if (registro.get(varFiltrada) >= criterioFiltrado) {
                     registroFiltrado = registro;
                 }
                 break;
             case 6:
-                if (registro.get(valorFiltrado) <= criterio) {
+                if (registro.get(varFiltrada) <= criterioFiltrado) {
                     registroFiltrado = registro;
                 }
                 break;

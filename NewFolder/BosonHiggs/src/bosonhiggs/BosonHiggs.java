@@ -7,54 +7,61 @@ package bosonhiggs;
 import java.util.Scanner;
 import java.io.File;
 
-/**
- *
- * @author alex
- */
+
 public class BosonHiggs {
 
  
     public static void main(String[] args) {
         boolean flag = true;
-        String directorio = null;
-        int[] columnasFiltradas= null;
+        String directorioOrigen = null;
+        int[] columnasaFiltrar= null;
         int tipoFiltrado=0;
-        int valorFiltrado=0;
-        float criterio = 0;
+        int varFiltrada=0;
+        float criterioFiltrado = 0;
         int numCPUs = getCPU();
-        
+
+        Scanner sc = new Scanner(System.in);
         while(flag){
-        try (Scanner sc = new Scanner(System.in)) {
-            System.out.println("Introduce el directorio y nombre del archivo: ");
-            directorio = sc.nextLine();
-            directorio = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS_2M.csv";
-            CSVHandler csv = new CSVHandler(directorio);
+        try {
+            System.out.print("\033[H\033[2J");
+            System.out.println("1) Introduce el directorio y nombre del archivo: ");
+            directorioOrigen = sc.nextLine();
+            directorioOrigen = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS_2M.csv";
+            CSVHandler csv = new CSVHandler(directorioOrigen);
             csv.desplegarHeaders();
-            System.out.println("Introduce el numero de las columnas a filtrar (Separados por espacios): ");
+            System.out.print("\033[H\033[2J");
+            System.out.println("2) Introduce el numero de las columnas a filtrar (Separados por espacios): ");
             String columnas = sc.nextLine();
             csv.getColFiltadas(columnas);
-            columnasFiltradas = csv.getColumnasFiltradas();
-            crearDirectorio();
-            System.out.println("Introduce la variable a filtrar: ");
-            valorFiltrado = sc.nextInt();
-            System.out.println("Que filtrado quieres hacer, sobre que columna? (0: Sin filtro \n1: > \n2: < \n3: =, \n4: !=, \n5: >=, \n6: <=)");
+            columnasaFiltrar = csv.getcolumnasaFiltrar();
+            CSVHandler.crearDirectorio();
+            System.out.print("\033[H\033[2J");
+            System.out.println("3) Introduce la variable a filtrar: ");
+            varFiltrada = sc.nextInt();
+            System.out.print("\033[H\033[2J");
+            System.out.println("4) Que filtrado quieres hacer, sobre que columna? \n0: Sin filtro \n1: > \n2: < \n3: =, \n4: !=, \n5: >=, \n6: <=");
             tipoFiltrado = sc.nextInt();
-            System.out.println("Criterio a usar para filtrar: ");
-            criterio = sc.nextFloat();
+            System.out.print("\033[H\033[2J");
+            System.out.println("5) Criterio a usar para filtrar: ");
+            criterioFiltrado = sc.nextFloat();
             flag = false;
         }
 
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error al leer los datos");
+            System.out.print("\033[H\033[2J");
+            System.out.println("Error al leer los datos [Presiona ENTER para continuar]");
+            sc.nextLine();
+            flag = true;
         }
+        
         
     }
         
-
         // Echar a andar el manager 
-        Manager manager = new Manager(directorio, columnasFiltradas, tipoFiltrado, valorFiltrado, criterio, numCPUs);
-        manager.filtrarConcurrente(directorio);
+        Manager manager = new Manager(directorioOrigen, columnasaFiltrar, tipoFiltrado, varFiltrada, criterioFiltrado, numCPUs);
+        manager.filtrarConcurrente(directorioOrigen);
+        CSVHandler.eliminarDirectorio();
     }
 
 
@@ -63,17 +70,4 @@ public class BosonHiggs {
     private static int getCPU() {
         return Runtime.getRuntime().availableProcessors();
     }
-
-    private static void crearDirectorio() {
-        String path = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/";
-        File directorio = new File(path);
-        try {
-            directorio.mkdir();
-        } catch (SecurityException e) {
-            System.out.println("Error al crear directorio");
-        }
-    }
-
-
-    
 }
