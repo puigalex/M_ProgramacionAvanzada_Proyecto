@@ -45,7 +45,7 @@ public class Manager implements datosFiltrados {
         
         int lineas = CSVHandler.countData(dir);
         //CSVHandler splitter = new CsvSplitter(lineas/(numCPUs*10)); 
-        int numHilos = 1;
+        int numHilos = numCPUs*10;
         List<String> paths = CSVHandler.splitCsv(directorioOrigen, cwd +"/Temp/", lineas/(numHilos));
         int numWorkers = numHilos;
         this.poolWorkers = new Thread[numWorkers];
@@ -58,7 +58,7 @@ public class Manager implements datosFiltrados {
             poolWorkers[i] = new Thread(worker);
             poolWorkers[i].start();
         }
-        
+ 
         for (int i = 0; i < numWorkers; i++) {
             try {
                 poolWorkers[i].join();
@@ -71,7 +71,7 @@ public class Manager implements datosFiltrados {
         System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
         System.out.println("Termino el filtrado, data contiene: " + data.size() + " registros");
         // Escribir CSV
-        CSVHandler.writeData(data, cwd + "HiggsFiltrado.csv");
+        CSVHandler.writeData(data, cwd + "/HiggsFiltrado.csv");
 
     }
     

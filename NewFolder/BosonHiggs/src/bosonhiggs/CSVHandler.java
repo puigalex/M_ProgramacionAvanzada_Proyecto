@@ -23,7 +23,7 @@ public class CSVHandler {
         this.headers = getHeaders(directorio);
     }
 
-    private String[] getHeaders(String directorio) {
+    public static String[] getHeaders(String directorio) {
         try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(directorio))) {
             String linea;
             linea = br.readLine();
@@ -89,8 +89,6 @@ public class CSVHandler {
     }
 
 
-
-
     public static void writeData(String header, List<List<String>> data, String filePath) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write(header);
@@ -129,8 +127,6 @@ public class CSVHandler {
         }
         return count;
     }
-
-
         public List<List<Float>> getData() {
             return data;
     }
@@ -159,7 +155,6 @@ public class CSVHandler {
         }
         directorio.delete();
     }
-
 }
     
 
