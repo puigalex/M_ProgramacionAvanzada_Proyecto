@@ -29,7 +29,7 @@ public class EjecucionSerial {
         } catch (IOException e) {
             System.err.println("Error leyendo el csv: " + e.getMessage());
         }
-        //CSVHandler.writeData(data, cwd + "/HiggsFiltradoSerialmente.csv");    
+        CSVHandler.writeData(data, cwd + "/HiggsFiltradoSerialmente.csv");    
     }
 
         private void leerCSV() throws IOException {

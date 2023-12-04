@@ -26,7 +26,7 @@ public class BosonHiggs {
             System.out.print("\033[H\033[2J");
             System.out.println("1) Introduce el directorio y nombre del archivo: ");
             directorioOrigen = sc.nextLine();
-            directorioOrigen = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Higgs_full_.csv";
+            //directorioOrigen = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/HIGGS_2M.csv";
             CSVHandler csv = new CSVHandler(directorioOrigen);
             csv.desplegarHeaders();
             String[] numColumnas = CSVHandler.getHeaders(directorioOrigen);
@@ -77,11 +77,10 @@ public class BosonHiggs {
         CSVHandler.eliminarDirectorio();
 
         // Correr en serial
-        long startTime = System.currentTimeMillis();
-        System.out.println("Ejecutando serial");
-        EjecucionSerial serial = new EjecucionSerial(directorioOrigen, columnasaFiltrar, tipoFiltrado, varFiltrada, criterioFiltrado);
-        long endTime = System.currentTimeMillis();
-        System.out.println("Tiempo de ejecucion serial: " + (endTime - startTime) + " milisegundos");
+        // long startTime = System.currentTimeMillis();
+        // EjecucionSerial serial = new EjecucionSerial(directorioOrigen, columnasaFiltrar, tipoFiltrado, varFiltrada, criterioFiltrado);
+        // long endTime = System.currentTimeMillis();
+        // System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
 
         sc.close();
     }
