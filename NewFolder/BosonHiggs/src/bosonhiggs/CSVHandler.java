@@ -13,7 +13,6 @@ import java.io.File;
 
 public class CSVHandler {
     private List<List<Float>> data = new ArrayList<>(); 
-    private List<String> nombreColumnas = new ArrayList<>(); // Lista de nombres de columnas
     private String directorio;
     private String[] headers;
     private int[] columnasaFiltrar;
@@ -24,6 +23,7 @@ public class CSVHandler {
     }
 
     public static String[] getHeaders(String directorio) {
+        // Metodo que retorna el nombre de las columnas del archivo CSV
         try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(directorio))) {
             String linea;
             linea = br.readLine();
@@ -35,13 +35,14 @@ public class CSVHandler {
     }
 
     public void desplegarHeaders() {
+        //Metodo que despliega los nombres de las columnas del archivo CSV
         for (int i=0; i<this.headers.length; i++) {
             System.out.println(i + ": " + headers[i]);
         }
     }
 
     public void getColFiltadas(String columnas){
-        // Recibe el String de columnas introducidas por el usuario, regresa un arreglo de ints
+        // Metodo que recibe el String de columnas introducidas por el usuario, regresa un arreglo de enteros
         String[] columnasaFiltrar = columnas.split(" ");
         int[] columnasaFiltrarInt = new int[columnasaFiltrar.length];
         for (int i=0; i<columnasaFiltrar.length; i++) {
@@ -51,11 +52,12 @@ public class CSVHandler {
     }
 
     public int[] getcolumnasaFiltrar() {
-        //Regresa el arreglo de columnas filtradas
+        //Metodo que regreso el arreglo de enteros de las columnas a filtrar (La variable es privada)
         return this.columnasaFiltrar;
     }
 
     static List<String> splitCsv(String sourceFilePath, String destinationDirectory, int rowsPerFile) {
+        // Metodo que divide el archivo CSV en varios archivos CSV dependiendo del numero de CPUs
         List<String> paths = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(sourceFilePath))) {
             String header = br.readLine(); 
@@ -90,6 +92,7 @@ public class CSVHandler {
 
 
     public static void writeData(String header, List<List<String>> data, String filePath) {
+        // Metodo que escribe los datos en un archivo CSV considerando el header
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write(header);
             bw.newLine();
@@ -103,6 +106,7 @@ public class CSVHandler {
     }
 
     public static void writeData(List<List<Float>> data, String directorio) {
+        // Metodo que escribe los datos en un archivo CSV, unicamente los datos, sin header
         try (java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter(directorio))) {
             for (List<Float> medicion : data) {
                 bw.write(String.join(",", medicion.toString()));
@@ -115,6 +119,7 @@ public class CSVHandler {
 
 
     public static int countData(String directorio) {
+        // Metodo que cuenta el numero de datos en un archivo CSV
         int count = 0;
         try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(directorio))) {
             String linea;
@@ -133,10 +138,8 @@ public class CSVHandler {
 
 
     public static void crearDirectorio() {
-        // get current working directory
+        // Metodo que crea un directorio para guardar los archivos CSV
         String path = System.getProperty("user.dir") + "/Temp";
-
-        //String path = "/Users/alex/Documents/GitHub/M_ProgramacionAvanzada_Proyecto/Temp/";
         File directorio = new File(path);
         try {
             directorio.mkdir();
@@ -147,6 +150,7 @@ public class CSVHandler {
 
 
     public static void eliminarDirectorio(){
+        //Metodo que elimina el directorio creado para guardar los archivos CSV
         String path = System.getProperty("user.dir") + "/Temp";
         File directorio = new File(path);
         File[] archivos = directorio.listFiles();

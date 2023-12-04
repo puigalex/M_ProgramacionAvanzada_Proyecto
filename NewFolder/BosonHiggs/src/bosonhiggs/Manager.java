@@ -15,6 +15,7 @@ public class Manager implements datosFiltrados {
     private String cwd = System.getProperty("user.dir");
 
     public Manager(String directorioOrigen, int[] columnasaFiltrar, int tipoFiltrado, int varFiltrada, float criterioFiltrado, int numCPUs) {
+        // Constructor del Manager
         this.directorioOrigen = directorioOrigen;
         this.columnasaFiltrar = columnasaFiltrar;
         this.tipoFiltrado = tipoFiltrado;
@@ -23,28 +24,12 @@ public class Manager implements datosFiltrados {
         this.numCPUs = numCPUs;
     }
 
-    
-    // public void filtrarSerial(String dir)
-    // { //El manager aqui es el que filtra  el archivo de manera seria sin enviarlo a los workers
-    //     try {
-    //         CSVHandler csv = new CSVHandler(dir);
-    //         csv.desplegarHeaders();
-    //         csv.getColFiltadas(columnasaFiltrar);
-    //         List<List<Float>> data = csv.getData();
-    //         data = filtrarColumnas(data);
-    //         data = filtrarRenglones(data);
-    //         CSVHandler.writeData(data, cwd + "HiggsFiltrado.csv");
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         System.out.println("Error al leer los datos");
-    //     }
-    // }
-
 
     public void filtrarConcurrente(String dir) {
-        
+        // Metodo donde el Manager divide los archivos en multiples CSV
+        //Crea un pool de workers
+        //Asigna un CSV a cada uno de los workers
         int lineas = CSVHandler.countData(dir);
-        //CSVHandler splitter = new CsvSplitter(lineas/(numCPUs*10)); 
         int numHilos = numCPUs*10;
         List<String> paths = CSVHandler.splitCsv(directorioOrigen, cwd +"/Temp/", lineas/(numHilos));
         int numWorkers = numHilos;
@@ -70,7 +55,7 @@ public class Manager implements datosFiltrados {
         long endTime = System.currentTimeMillis();
         System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
         System.out.println("Termino el filtrado, data contiene: " + data.size() + " registros");
-        // Escribir CSV
+
         CSVHandler.writeData(data, cwd + "/HiggsFiltrado.csv");
 
     }

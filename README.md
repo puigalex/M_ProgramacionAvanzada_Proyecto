@@ -29,6 +29,9 @@ Clase que extiende de Runnable para los Workers concurrentes. Cada worker lee el
 ## datosFiltrados.java
 Clase que contiene la variable **data** donde se escriben los registros filtrados por cada worker. Esta variable es **static** para que sea compartida entre los workers y el worker.
 
+## Validator.java
+Clase que contiene los métodos para validar los parámetros de entrada del usuario. Casos en donde el input es correcto en el tipo de variable pero no en el valor, ejemplo, introducir una columna que no existe en el archivo.
+
 
 
 # Pendientes:

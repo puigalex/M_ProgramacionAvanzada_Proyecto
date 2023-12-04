@@ -1,44 +1,39 @@
 package bosonhiggs;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Worker implements Runnable, datosFiltrados {
-    private static Lock lock = new ReentrantLock();
-    private String nombreArchivo;
+public class EjecucionSerial {
+    private String directorioOrigen;
     private int[] columnasaFiltrar;
     private int tipoFiltrado;
     private int varFiltrada;
     private float criterioFiltrado = 0;
+    private String cwd = System.getProperty("user.dir");
+    public static List<List<Float>> data = new ArrayList<>(); 
 
-    public Worker(String nombreArchivo, int[] columnasaFiltrar, int tipoFiltrado, int varFiltrada, float criterioFiltrado) {
-        this.nombreArchivo = nombreArchivo;
+    public EjecucionSerial(String directorioOrigen, int[] columnasaFiltrar, int tipoFiltrado, int varFiltrada, float criterioFiltrado){
+        this.directorioOrigen = directorioOrigen;
         this.columnasaFiltrar = columnasaFiltrar;
         this.tipoFiltrado = tipoFiltrado;
         this.varFiltrada = varFiltrada;
         this.criterioFiltrado = criterioFiltrado;
-    }
-
-
-
-    @Override
-    public void run() {
-        try {
+        
+        try{
             leerCSV();
             System.out.println("Se termino de leer el archivo y la varible data tiene: " + data.size());
         } catch (IOException e) {
             System.err.println("Error leyendo el csv: " + e.getMessage());
         }
+        CSVHandler.writeData(data, cwd + "/HiggsFiltradoSerialmente.csv");    
     }
-    
-    private void leerCSV() throws IOException {
-        // Metodo donde el worker abre el CSV correspondiente y va leyendo linea por linea para poder filtrar
-        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
+
+        private void leerCSV() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(directorioOrigen))) {
             String linea;
             reader.readLine();
             while ((linea = reader.readLine()) != null) {
@@ -53,7 +48,6 @@ public class Worker implements Runnable, datosFiltrados {
                 if (medicion.size() > 0){
                 medicion = filtrarColumnas(medicion);
                 escribirResultado(medicion);}
-                
             }
         }
         catch (IOException e) {
@@ -62,21 +56,14 @@ public class Worker implements Runnable, datosFiltrados {
     }
 
 
-    public static void escribirResultado(List<Float> registro) {
-        // Metodo que agrega un renglon ya filtrado a la estructura de datos compartida entre los workers y manager
-        // Cada worker bloquea con candado la sección critica para evitar que haya problemas de escrituras por workers simultaneas
-        lock.lock();
+        public static void escribirResultado(List<Float> registro) {
         try {
             data.add(registro);
-            //System.out.println("Se escribio registro nuevo por en ID tipoFiltrado: " + Thread.currentThread().getId());
-            //System.out.println(data.size());
         } finally {
-            lock.unlock();
         }
     }
 
     private List<Float> filtrarColumnas(List<Float> registro) {
-        // Metodo que toma un renglon y solo mantiene las columnas que el usuario eligió
         List<Float> registroFiltrado = new ArrayList<>();
         for (int columna : columnasaFiltrar) {
             registroFiltrado.add(registro.get(columna));
@@ -85,7 +72,6 @@ public class Worker implements Runnable, datosFiltrados {
     }
 
     private List<Float> filtrarRenglon(List<Float> registro){
-        // Metodo que toma un renglon y decide si el renglon se filtra o no se filtra basado en el criterio (igual, mayor, menor etc.) seleccionado por el usuario
         List<Float> registroFiltrado = new ArrayList<>();
         switch (tipoFiltrado) {
             case 0:
@@ -126,4 +112,5 @@ public class Worker implements Runnable, datosFiltrados {
         }
         return registroFiltrado;
     }
+    
 }
