@@ -1,4 +1,14 @@
 # M_ProgramacionAvanzada_Proyecto
+Liga del set de datos: [Boson de Higgs](https://archive.ics.uci.edu/static/public/280/higgs.zip)
+
+# Modo de uso:
+- Correr el programa BosonHiggs.java
+- Introducir el directorio del archivo, usando path absoluto, ejemplo: `C:\Users\Usuario\Documents\higgs.csv`
+- Introducir las columnas a mantener, usando el numero de la columna, separadas por espacios, ejemplo: `0 2 5`
+- Introducir el numero de la coumna (previamente seleccionada) para filtrar, ejemplo: `0`
+- Seleccionar el operador de filtrado, usando el numero del operador mostrado en la terminal, ejemplo: `1`
+- Introducir el valor para filtrar, ejemplo: `0.5`
+
 Este es el repositorio del proyecto de programación avanzada donde se realizan las siguientes actividades:
 - El usuario ingresa 
     - Directorio de archivo con 2 millones de registros
@@ -32,16 +42,4 @@ Clase que contiene la variable **data** donde se escriben los registros filtrado
 ## Validator.java
 Clase que contiene los métodos para validar los parámetros de entrada del usuario. Casos en donde el input es correcto en el tipo de variable pero no en el valor, ejemplo, introducir una columna que no existe en el archivo.
 
-
-
-# Pendientes:
-- Desarrollo:
-  - [ ] Interfaz con variable data
-  - [ ] Borrar carpeta TMP
-  - [ ] Desarrollo en secuencial para medir tiempo
-  - [ ] Revisar modificadores de acceso 
-  - [ ] Integrar Try / Catch 
-- Integración:
- - [ ] Salvar los CSV en TMP
- - [ ] Escribir el dataframe en un CSV final
 
