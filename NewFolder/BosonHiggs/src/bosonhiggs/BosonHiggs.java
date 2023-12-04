@@ -81,6 +81,8 @@ public class BosonHiggs {
         // EjecucionSerial serial = new EjecucionSerial(directorioOrigen, columnasaFiltrar, tipoFiltrado, varFiltrada, criterioFiltrado);
         // long endTime = System.currentTimeMillis();
         // System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
+
+        sc.close();
     }
 
 
