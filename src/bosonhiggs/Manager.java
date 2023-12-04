@@ -1,5 +1,8 @@
 package bosonhiggs;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -56,8 +59,23 @@ public class Manager implements datosFiltrados {
         System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
         System.out.println("Termino el filtrado, data contiene: " + data.size() + " registros");
 
-        CSVHandler.writeData(data, cwd + "/HiggsFiltrado.csv");
 
+
+        java.util.Date fecha = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd_HHmm");
+        String fechaActual = sdf.format(fecha);
+        String nombreArchivo = "Higgs_filtered(" + fechaActual + ").csv";
+        String directorioFinal = getDirectorioEscritura(directorioOrigen, nombreArchivo);
+        System.out.println("Escribiendo datos en: " + directorioFinal + nombreArchivo);
+        CSVHandler.writeData(data, directorioFinal + nombreArchivo);
+
+    }
+
+    private static String getDirectorioEscritura(String directorio, String nombreArchivo) {
+        Path filePath = Paths.get(directorio);
+        Path parentDirectory = filePath.getParent(); //eliminar el nombre del archivo
+        String fileSeparator = FileSystems.getDefault().getSeparator(); //obtener separador del S.O.
+        return (parentDirectory != null) ? parentDirectory.toString() + fileSeparator + filePath.getFileName() : null; //Se regresa como string para que se pueda usar con la clase writeData
     }
     
 }
