@@ -7,10 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- *
- * @author alex
- */
+
 public class Promedio {
     static float suma;
     static int contador;
